@@ -10,18 +10,23 @@
             "request": "launch",
             "program": "${workspaceFolder}/bin/debug/x86_64-softmmu/qemu-system-x86_64",
             "args": [
-                "-boot",
+                "-boot", //-boot c 启动第一个硬盘
                 "c",
                 "-drive",
                 "file=./debian_squeeze_amd64_standard.qcow2,if=virtio",
+                //-drive file=debian_squeeze_amd64_standard.qcow2,if=virtio
+                //指定硬盘镜像为debian_squeeze_amd64_standard.qcow2，
+                //同时指定此硬盘的接入方式，即virtio，virtio是基于kvm实现的，因此需要开启kvm
                 "-net",
                 "nic",
                 "-net",
                 "user,hostfwd=tcp::22222-:22",
+                //-net nic -net user,hostfwd=tcp::22222-:22 
+                //配置虚拟网卡、网络栈权限为用户权限和端口映射
                 "-m",
-                "2G",
-                "-nographic",
-                "-enable-kvm"
+                "2G", // -m 2G 指定2G内存
+                "-nographic", //关闭图像功能
+                "-enable-kvm" //开启kvm加速
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/bin/debug/x86_64-softmmu/workdir",
