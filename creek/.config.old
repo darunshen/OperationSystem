@@ -1,0 +1,15 @@
+#
+# Automatically generated file; DO NOT EDIT.
+# kbuild for creek
+#
+
+#
+# ARCH SETTING
+#
+CONFIG_64BIT=y
+CONFIG_X86_64=y
+
+#
+# HELLO WORLD
+#
+CONFIG_HELLO-WORLD=y

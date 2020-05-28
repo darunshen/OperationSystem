@@ -1,0 +1,33 @@
+# mainmenu "kbuild for creek"
+# Select 32 or 64 bit
+
+
+### Arch settings
+
+menu "ARCH SETTING"
+
+config 64BIT
+	bool "64-bit kernel" if ARCH = "x86"
+	default ARCH != "i386"
+	---help---
+	  Say yes to build a 64-bit kernel - formerly known as x86_64
+	  Say no to build a 32-bit kernel - formerly known as i386
+
+config X86_32
+	bool "build 32 bit system"
+	depends on !64BIT
+
+config X86_64
+	bool "build 64 bit system"
+	depends on 64BIT
+
+endmenu
+
+menu "HELLO WORLD"
+
+config HELLOWORLD
+	bool "execute hello world demo"
+	---help---
+		"hello world" printed on boot
+
+endmenu
