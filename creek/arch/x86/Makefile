@@ -226,14 +226,14 @@ ifdef CONFIG_RETPOLINE
     endif
 endif
 
-archscripts: scripts_basic
-	$(Q)$(MAKE) $(build)=arch/x86/tools relocs
+# archscripts: scripts_basic
+# 	$(Q)$(MAKE) $(build)=arch/x86/tools relocs
 
 ###
 # Syscall table generation
 
-archheaders:
-	$(Q)$(MAKE) $(build)=arch/x86/entry/syscalls all
+# archheaders:
+# 	$(Q)$(MAKE) $(build)=arch/x86/entry/syscalls all
 
 archprepare:
 ifeq ($(CONFIG_KEXEC_FILE),y)
