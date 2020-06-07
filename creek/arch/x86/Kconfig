@@ -21,6 +21,13 @@ config X86_64
 	bool "build 64 bit system"
 	depends on 64BIT
 
+config X86_MINIMUM_CPU_FAMILY
+	int
+	default "64" if X86_64
+	default "6" if X86_32 && X86_P6_NOP
+	default "5" if X86_32 && X86_CMPXCHG64
+	default "4
+
 endmenu
 
 menu "HELLO WORLD"

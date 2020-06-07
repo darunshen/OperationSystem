@@ -10,30 +10,26 @@
 # -D __KERNEL__ -D CONFIG_AS_CFI=1 -D CONFIG_AS_CFI_SIGNAL_FRAME=1
 # -D CONFIG_AS_CFI_SECTIONS=1 -D CONFIG_AS_FXSAVEQ=1 -D CONFIG_AS_SSSE3=1
 # -D CONFIG_AS_CRC32=1 -D CONFIG_AS_AVX=1 -D CONFIG_AS_AVX2=1
-# -D CONFIG_AS_SHA1_NI=1 -D CONFIG_AS_SHA256_NI=1 -D RETPOLINE
-# -D CC_HAVE_ASM_GOTO -D KBUILD_STR(s)=#s
-# -D KBUILD_BASENAME=KBUILD_STR(devicetable_offsets)
+# -D CONFIG_AS_SHA1_NI=1 -D CONFIG_AS_SHA256_NI=1 -D CC_HAVE_ASM_GOTO
+# -D KBUILD_STR(s)=#s -D KBUILD_BASENAME=KBUILD_STR(devicetable_offsets)
 # -D KBUILD_MODNAME=KBUILD_STR(devicetable_offsets)
 # -isystem /usr/lib/gcc/x86_64-linux-gnu/7/include
 # -include ./include/linux/kconfig.h
 # -MD scripts/mod/.devicetable-offsets.s.d
 # scripts/mod/devicetable-offsets.c -mno-sse -mno-mmx -mno-sse2 -mno-3dnow
 # -mno-avx -m64 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3
-# -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel
-# -maccumulate-outgoing-args -mindirect-branch=thunk-extern
-# -mindirect-branch-register -march=x86-64
+# -mskip-rax-setup -mno-red-zone -mcmodel=kernel -maccumulate-outgoing-args
+# -mtune=generic -march=x86-64
 # -auxbase-strip scripts/mod/devicetable-offsets.s -O2 -Wall -Wundef
 # -Wstrict-prototypes -Wno-trigraphs -Werror=implicit-function-declaration
 # -Wno-format-security -Wno-sign-compare -Wno-maybe-uninitialized
 # -Wno-frame-address -Wformat-truncation=0 -Wformat-overflow=0
-# -Wno-int-in-bool-context -Wframe-larger-than=2048
-# -Wno-unused-but-set-variable -Wunused-const-variable=0
-# -Wdeclaration-after-statement -Wno-pointer-sign -Werror=implicit-int
-# -Werror=strict-prototypes -Werror=date-time -std=gnu90
-# -fno-strict-aliasing -fno-common -fno-PIE -falign-jumps=1 -falign-loops=1
-# -funit-at-a-time -fno-asynchronous-unwind-tables
-# -fno-delete-null-pointer-checks -fno-stack-protector
-# -fno-omit-frame-pointer -fno-optimize-sibling-calls
+# -Wno-int-in-bool-context -Wno-unused-but-set-variable
+# -Wunused-const-variable=0 -Wdeclaration-after-statement -Wno-pointer-sign
+# -Werror=implicit-int -Werror=strict-prototypes -Werror=date-time
+# -std=gnu90 -fno-strict-aliasing -fno-common -fno-PIE -falign-jumps=1
+# -falign-loops=1 -funit-at-a-time -fno-asynchronous-unwind-tables
+# -fno-delete-null-pointer-checks -fno-stack-protector -fomit-frame-pointer
 # -fno-var-tracking-assignments -fno-strict-overflow
 # -fno-merge-all-constants -fmerge-constants -fstack-check=no
 # -fconserve-stack -fverbose-asm --param allow-store-data-races=0
@@ -58,9 +54,10 @@
 # -fisolate-erroneous-paths-dereference -fivopts -fkeep-static-consts
 # -fleading-underscore -flifetime-dse -flra-remat -flto-odr-type-merging
 # -fmath-errno -fmerge-constants -fmerge-debug-strings
-# -fmove-loop-invariants -foptimize-strlen -fpartial-inlining -fpeephole
-# -fpeephole2 -fplt -fprefetch-loop-arrays -free -freg-struct-return
-# -freorder-blocks -freorder-functions -frerun-cse-after-loop
+# -fmove-loop-invariants -fomit-frame-pointer -foptimize-sibling-calls
+# -foptimize-strlen -fpartial-inlining -fpeephole -fpeephole2 -fplt
+# -fprefetch-loop-arrays -free -freg-struct-return -freorder-blocks
+# -freorder-functions -frerun-cse-after-loop
 # -fsched-critical-path-heuristic -fsched-dep-count-heuristic
 # -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
 # -fsched-rank-heuristic -fsched-spec -fsched-spec-insn-heuristic
@@ -80,9 +77,8 @@
 # -funit-at-a-time -fverbose-asm -fzero-initialized-in-bss
 # -m128bit-long-double -m64 -maccumulate-outgoing-args -malign-stringops
 # -mavx256-split-unaligned-load -mavx256-split-unaligned-store -mfxsr
-# -mglibc -mieee-fp -mindirect-branch-register -mlong-double-80
-# -mno-fancy-math-387 -mno-red-zone -mno-sse4 -mpush-args -mskip-rax-setup
-# -mtls-direct-seg-refs -mvzeroupper
+# -mglibc -mieee-fp -mlong-double-80 -mno-fancy-math-387 -mno-red-zone
+# -mno-sse4 -mpush-args -mskip-rax-setup -mtls-direct-seg-refs -mvzeroupper
 
 	.text
 	.section	.text.startup,"ax",@progbits
@@ -90,8 +86,6 @@
 	.globl	main
 	.type	main, @function
 main:
-	pushq	%rbp	#
-	movq	%rsp, %rbp	#,
 # scripts/mod/devicetable-offsets.c:10: 	DEVID(usb_device_id);
 #APP
 # 10 "scripts/mod/devicetable-offsets.c" 1
@@ -881,7 +875,6 @@ main:
 # scripts/mod/devicetable-offsets.c:206: }
 #NO_APP
 	xorl	%eax, %eax	#
-	popq	%rbp	#
 	ret
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0"
