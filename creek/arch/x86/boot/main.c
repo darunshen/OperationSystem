@@ -125,6 +125,7 @@ static void init_heap(void) {
 void main(void) {
 #ifdef CONFIG_HELLOWORLD
   puts("HELLO WORLD !\n");
+  while(1){}
 #else
   /* First, copy the boot header into the "zeropage" */
   copy_boot_params();

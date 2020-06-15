@@ -281,6 +281,12 @@ all: bzImage
 # KBUILD_IMAGE specify target image being built
 KBUILD_IMAGE := $(boot)/bzImage
 
+SETUP_IMAGE := $(boot)/setup.bin
+
+setup:
+	$(Q)$(MAKE) $(build)=init include/generated/compile.h
+	$(Q)$(MAKE) $(build)=$(boot) $(SETUP_IMAGE)
+
 # bzImage: vmlinux
 bzImage: 
 ifeq ($(CONFIG_X86_DECODER_SELFTEST),y)
@@ -305,8 +311,8 @@ archclean:
 	$(Q)rm -rf $(objtree)/arch/i386
 	$(Q)rm -rf $(objtree)/arch/x86_64
 	$(Q)$(MAKE) $(clean)=$(boot)
-	$(Q)$(MAKE) $(clean)=arch/x86/tools
-	$(Q)$(MAKE) $(clean)=arch/x86/purgatory
+	# $(Q)$(MAKE) $(clean)=arch/x86/tools
+	# $(Q)$(MAKE) $(clean)=arch/x86/purgatory
 
 define archhelp
   echo  '* bzImage      - Compressed kernel image (arch/x86/boot/bzImage)'

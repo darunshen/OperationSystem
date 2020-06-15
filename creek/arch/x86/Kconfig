@@ -26,7 +26,74 @@ config X86_MINIMUM_CPU_FAMILY
 	default "64" if X86_64
 	default "6" if X86_32 && X86_P6_NOP
 	default "5" if X86_32 && X86_CMPXCHG64
-	default "4
+
+config PHYSICAL_ALIGN
+	hex "Alignment value to which kernel should be aligned"
+	default "0x200000"
+	range 0x2000 0x1000000 if X86_32
+	range 0x200000 0x1000000 if X86_64
+	---help---
+	  This value puts the alignment restrictions on physical address
+	  where kernel is loaded and run from. Kernel is compiled for an
+	  address which meets above alignment restriction.
+
+	  If bootloader loads the kernel at a non-aligned address and
+	  CONFIG_RELOCATABLE is set, kernel will move itself to nearest
+	  address aligned to above value and run from there.
+
+	  If bootloader loads the kernel at a non-aligned address and
+	  CONFIG_RELOCATABLE is not set, kernel will ignore the run time
+	  load address and decompress itself to the address it has been
+	  compiled for and run from there. The address for which kernel is
+	  compiled already meets above alignment restrictions. Hence the
+	  end result is that kernel runs from a physical address meeting
+	  above alignment restrictions.
+
+	  On 32-bit this value must be a multiple of 0x2000. On 64-bit
+	  this value must be a multiple of 0x200000.
+
+	  Don't change this unless you know what you are doing.
+
+config PHYSICAL_START
+	hex "Physical address where the kernel is loaded"
+	default "0x1000000"
+	---help---
+	  This gives the physical address where the kernel is loaded.
+
+	  If kernel is a not relocatable (CONFIG_RELOCATABLE=n) then
+	  bzImage will decompress itself to above physical address and
+	  run from there. Otherwise, bzImage will run from the address where
+	  it has been loaded by the boot loader and will ignore above physical
+	  address.
+
+	  In normal kdump cases one does not have to set/change this option
+	  as now bzImage can be compiled as a completely relocatable image
+	  (CONFIG_RELOCATABLE=y) and be used to load and run from a different
+	  address. This option is mainly useful for the folks who don't want
+	  to use a bzImage for capturing the crash dump and want to use a
+	  vmlinux instead. vmlinux is not relocatable hence a kernel needs
+	  to be specifically compiled to run from a specific memory area
+	  (normally a reserved region) and this option comes handy.
+
+	  So if you are using bzImage for capturing the crash dump,
+	  leave the value here unchanged to 0x1000000 and set
+	  CONFIG_RELOCATABLE=y.  Otherwise if you plan to use vmlinux
+	  for capturing the crash dump change this value to start of
+	  the reserved region.  In other words, it can be set based on
+	  the "X" value as specified in the "crashkernel=YM@XM"
+	  command line boot parameter passed to the panic-ed
+	  kernel. Please take a look at Documentation/kdump/kdump.txt
+	  for more details about crash dumps.
+
+	  Usage of bzImage for capturing the crash dump is recommended as
+	  one does not have to build two kernels. Same kernel can be used
+	  as production kernel and capture kernel. Above option should have
+	  gone away after relocatable bzImage support is introduced. But it
+	  is present because there are users out there who continue to use
+	  vmlinux for dump capture. This option should go away down the
+	  line.
+
+	  Don't change this unless you know what you are doing.
 
 endmenu
 
