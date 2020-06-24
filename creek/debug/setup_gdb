@@ -1,0 +1,4 @@
+set architecture i386:x86-64
+set confirm off
+file /home/bigrain/Documents/tmp/creek/setup.elf
+target remote :1234

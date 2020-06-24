@@ -95,6 +95,15 @@ config PHYSICAL_START
 
 	  Don't change this unless you know what you are doing.
 
+config EFI_STUB
+	bool "EFI stub support"
+	select RELOCATABLE
+	---help---
+	  This kernel feature allows a bzImage to be loaded directly
+	  by EFI firmware without the use of a bootloader.
+
+	  See Documentation/admin-guide/efi-stub.rst for more information.
+
 endmenu
 
 menu "HELLO WORLD"
