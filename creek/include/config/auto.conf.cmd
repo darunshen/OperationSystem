@@ -1,4 +1,5 @@
 deps_config := \
+	mm/Kconfig \
 	init/Kconfig \
 	arch/x86/Kconfig \
 	Kconfig

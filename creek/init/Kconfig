@@ -35,4 +35,19 @@ config DEBUG_INFO
 
 	  If unsure, say N.
 
+config TREE_RCU
+	bool
+	default y
+	help
+	  This option selects the RCU implementation that is
+	  designed for very large SMP system with hundreds or
+	  thousands of CPUs.  It also scales down nicely to
+	  smaller systems.
+
+config KERNEL_GZIP
+	bool "Gzip"
+	help
+	  The old and tried gzip compression. It provides a good balance
+	  between compression ratio and decompression speed.
+
 endmenu

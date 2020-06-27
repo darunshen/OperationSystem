@@ -104,6 +104,19 @@ config EFI_STUB
 
 	  See Documentation/admin-guide/efi-stub.rst for more information.
 
+config X86_L1_CACHE_SHIFT
+	int
+	default "6"
+
+config HZ
+	int
+	default 1000
+
+config OUTPUT_FORMAT
+	string
+	default "elf32-i386" if X86_32
+	default "elf64-x86-64" if X86_64
+
 endmenu
 
 menu "HELLO WORLD"

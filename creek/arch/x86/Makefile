@@ -244,8 +244,8 @@ endif
 # Kernel objects
 
 head-y := arch/x86/kernel/head_$(BITS).o
-head-y += arch/x86/kernel/head$(BITS).o
-head-y += arch/x86/kernel/head.o
+# head-y += arch/x86/kernel/head$(BITS).o
+# head-y += arch/x86/kernel/head.o
 
 libs-y  += arch/x86/lib/
 
@@ -287,8 +287,7 @@ setup:
 	$(Q)$(MAKE) $(build)=init include/generated/compile.h
 	$(Q)$(MAKE) $(build)=$(boot) $(SETUP_IMAGE)
 
-# bzImage: vmlinux
-bzImage: 
+bzImage: vmlinux
 ifeq ($(CONFIG_X86_DECODER_SELFTEST),y)
 	$(Q)$(MAKE) $(build)=arch/x86/tools posttest
 endif

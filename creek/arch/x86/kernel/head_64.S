@@ -206,7 +206,7 @@ ENTRY(secondary_startup_64)
 	btl	$20,%edi		/* No Execute supported? */
 	jnc     1f
 	btsl	$_EFER_NX, %eax
-	btsq	$_PAGE_BIT_NX,early_pmd_flags(%rip)
+#	btsq	$_PAGE_BIT_NX,early_pmd_flags(%rip)
 1:	wrmsr				/* Make changes effective */
 
 	/* Setup cr0 */
@@ -314,12 +314,12 @@ ENDPROC(start_cpu0)
 	__REFDATA
 	.balign	8
 	GLOBAL(initial_code)
-	.quad	x86_64_start_kernel
+#	.quad	x86_64_start_kernel
 	GLOBAL(initial_gs)
-	.quad	INIT_PER_CPU_VAR(irq_stack_union)
+#	.quad	INIT_PER_CPU_VAR(irq_stack_union)
 
 	GLOBAL(stack_start)
-	.quad  init_thread_union+THREAD_SIZE-8
+#	.quad  init_thread_union+THREAD_SIZE-8
 	.word  0
 	__FINITDATA
 
@@ -374,13 +374,13 @@ early_idt_handler_common:
 	cmpl $14,72(%rsp)	# Page fault?
 	jnz 10f
 	GET_CR2_INTO(%rdi)	# can clobber any volatile register if pv
-	call early_make_pgtable
+#	call early_make_pgtable
 	andl %eax,%eax
 	jz 20f			# All good
 
 10:
 	leaq 88(%rsp),%rdi	# Pointer to %rip
-	call early_fixup_exception
+#	call early_fixup_exception
 	andl %eax,%eax
 	jnz 20f			# Found an exception entry
 
@@ -540,14 +540,14 @@ NEXT_PAGE(level1_fixmap_pgt)
 	.globl early_gdt_descr
 early_gdt_descr:
 	.word	GDT_ENTRIES*8-1
-early_gdt_descr_base:
-	.quad	INIT_PER_CPU_VAR(gdt_page)
+# early_gdt_descr_base:
+#	.quad	INIT_PER_CPU_VAR(gdt_page)
 
 ENTRY(phys_base)
 	/* This must match the first entry in level2_kernel_pgt */
 	.quad   0x0000000000000000
 
-#include "../../x86/xen/xen-head.S"
+; #include "../../x86/xen/xen-head.S"
 	
 	__PAGE_ALIGNED_BSS
 NEXT_PAGE(empty_zero_page)

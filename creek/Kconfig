@@ -10,3 +10,4 @@ config SRCARCH
 
 source "arch/$SRCARCH/Kconfig"
 source "init/Kconfig"
+source "mm/Kconfig"
