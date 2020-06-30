@@ -247,6 +247,21 @@ static void error(char *x)
 	while (1)
 		asm("hlt");
 }
+static void error_v(char *x,unsigned long value,unsigned long value1,unsigned long value2)
+{
+	error_putstr("\n\n");
+	error_putstr(x);
+	error_putstr("\n\n");
+	error_puthex(value);
+	error_putstr("\n\n");
+	error_puthex(value1);
+	error_putstr("\n\n");
+	error_puthex(value2);
+	error_putstr("\n\n -- System halted");
+
+	while (1)
+		asm("hlt");
+}
 
 #if CONFIG_X86_NEED_RELOCS
 static void handle_relocations(void *output, unsigned long output_len)
@@ -438,8 +453,10 @@ asmlinkage __visible void *decompress_kernel(void *rmode, memptr heap,
 							      : run_size);
 
 	/* Validate memory location choices. */
-	if ((unsigned long)output & (MIN_KERNEL_ALIGN - 1))
-		error("Destination address inappropriately aligned");
+	if ((unsigned long)output & (MIN_KERNEL_ALIGN - 1)){
+		unsigned long res = (unsigned long)output & (MIN_KERNEL_ALIGN - 1);
+		error_v("Destination address inappropriately aligned",res,(unsigned long)output,(MIN_KERNEL_ALIGN - 1));
+	}
 #ifdef CONFIG_X86_64
 	if (heap > 0x3fffffffffffUL)
 		error("Destination address too large");

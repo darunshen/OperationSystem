@@ -5,7 +5,11 @@
 #include <asm/pgtable_types.h>
 #include <uapi/asm/boot.h>
 
-/* Physical address where kernel should be loaded. */
+/* Physical address where kernel should be loaded. 
+when 
+CONFIG_PHYSICAL_ALIGN=0x200000
+CONFIG_PHYSICAL_START=0x1000000
+LOAD_PHYSICAL_ADDR = 0x1000000*/
 #define LOAD_PHYSICAL_ADDR ((CONFIG_PHYSICAL_START \
 				+ (CONFIG_PHYSICAL_ALIGN - 1)) \
 				& ~(CONFIG_PHYSICAL_ALIGN - 1))
@@ -16,7 +20,8 @@
 #else
 #define MIN_KERNEL_ALIGN_LG2	(PAGE_SHIFT + THREAD_SIZE_ORDER)
 #endif
-#define MIN_KERNEL_ALIGN	(_AC(1, UL) << MIN_KERNEL_ALIGN_LG2)
+// #define MIN_KERNEL_ALIGN	(_AC(1, UL) << MIN_KERNEL_ALIGN_LG2)
+#define MIN_KERNEL_ALIGN	(_AC(1, UL) << 21)
 
 #if (CONFIG_PHYSICAL_ALIGN & (CONFIG_PHYSICAL_ALIGN-1)) || \
 	(CONFIG_PHYSICAL_ALIGN < MIN_KERNEL_ALIGN)

@@ -55,8 +55,8 @@ deps_arch/x86/boot/compressed/head_64.o := \
     $(wildcard include/config/x86/internode/cache/shift.h) \
     $(wildcard include/config/x86/vsmp.h) \
   arch/x86/include/asm/boot.h \
-    $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/physical/align.h) \
+    $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/kernel/bzip2.h) \
   arch/x86/include/asm/pgtable_types.h \
     $(wildcard include/config/kmemcheck.h) \

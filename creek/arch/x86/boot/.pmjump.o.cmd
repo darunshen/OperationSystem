@@ -4,8 +4,8 @@ source_arch/x86/boot/pmjump.o := arch/x86/boot/pmjump.S
 
 deps_arch/x86/boot/pmjump.o := \
   arch/x86/include/asm/boot.h \
-    $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/physical/align.h) \
+    $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/x86/64.h) \
     $(wildcard include/config/kernel/bzip2.h) \
   arch/x86/include/asm/pgtable_types.h \
