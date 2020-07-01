@@ -1,6 +1,0 @@
-menu MEMORY
-
-config SPARSEMEM
-	def_bool y
-
-endmenu
