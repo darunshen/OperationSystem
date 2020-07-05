@@ -1,0 +1,1 @@
+extern unsigned long initial_code;

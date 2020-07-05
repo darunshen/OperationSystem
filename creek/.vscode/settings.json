@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "*.Makefile": "makefile",
+        "*.makefile": "makefile",
+        "*Kbuild": "makefile",
+        "Makefile.build": "makefile",
+        "Kbuild.include": "makefile",
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "linkage.h": "c",
+        "compiler.h": "c",
+        "macro.h": "c"
+    }
+}
