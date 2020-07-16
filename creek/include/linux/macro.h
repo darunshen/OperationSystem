@@ -6,6 +6,13 @@
 #ifndef LINUX_MACRO_H_
 #define LINUX_MACRO_H_
 
+#include <asm/page_64_types.h>
+#include <asm/page_types.h>
+#include <asm/segment.h>
+#include <asm/desc_defs.h>
+#include <linux/percpu-defs.h>
+#include <asm-generic/percpu.h>
+
 #ifdef __ASSEMBLY__
 #define _AC(X,Y)	X
 #define _AT(T,X)	X
@@ -66,17 +73,6 @@
 
 #define ENDPROC(name)
 
-/*
- * Set __PAGE_OFFSET to the most negative possible address +
- * PGDIR_SIZE*16 (pgd slot 272).  The gap is to allow a space for a
- * hypervisor to fit.  Choosing 16 slots here is arbitrary, but it's
- * what Xen requires.
- */
-#define __PAGE_OFFSET		_AC(CONFIG_PAGE_OFFSET, UL)
-#define PAGE_OFFSET		((unsigned long)__PAGE_OFFSET)
-
-#define __START_KERNEL_map	__PAGE_OFFSET
-
 // extern unsigned long initial_code;
 
 #define GDT_ENTRY_KERNEL_CS		2
@@ -85,5 +81,5 @@
 #define GLOBAL(name)	\
 	.globl name;	\
 	name:
-	
+
 #endif  // LINUX_MACRO_H_

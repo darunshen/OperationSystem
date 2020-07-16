@@ -156,18 +156,26 @@ int set_mode(u16 mode)
 		mode = VIDEO_80x25;
 	else if (mode == EXTENDED_VGA)
 		mode = VIDEO_8POINT;
-
+	puts("raw_set_mode\n");
 	rv = raw_set_mode(mode, &real_mode);
-	if (rv)
+	if (rv){
+		puts("raw_set_mode error\n");
+		while(1){}
 		return rv;
+	}
 
-	if (mode & VIDEO_RECALC)
+	if (mode & VIDEO_RECALC){
+		
 		vga_recalc_vertical();
+		puts("vga_recalc_vertical error\n");
+		while(1){}
+	}
 
 	/* Save the canonical mode number for the kernel, not
 	   an alias, size specification or menu position */
 #ifndef _WAKEUP
 	boot_params.hdr.vid_mode = real_mode;
 #endif
+	puts("done\n");
 	return 0;
 }

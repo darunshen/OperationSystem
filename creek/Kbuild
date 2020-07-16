@@ -1,0 +1,16 @@
+#####
+# 3) Generate asm-offsets.h
+#
+
+# offsets-file := include/generated/asm-offsets.h
+
+# always  += $(offsets-file)
+# targets += arch/$(SRCARCH)/kernel/asm-offsets.s
+
+# # We use internal kbuild rules to avoid the "is up to date" message from make
+# arch/$(SRCARCH)/kernel/asm-offsets.s: arch/$(SRCARCH)/kernel/asm-offsets.c FORCE
+# 	$(Q)mkdir -p $(dir $@)
+# 	$(call if_changed_dep,cc_s_c)
+
+# $(obj)/$(offsets-file): arch/$(SRCARCH)/kernel/asm-offsets.s FORCE
+# 	$(call filechk,offsets,__ASM_OFFSETS_H__)

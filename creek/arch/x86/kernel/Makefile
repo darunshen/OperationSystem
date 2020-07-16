@@ -2,7 +2,8 @@
 # Makefile for the linux kernel.
 #
 
-extra-y                := head_$(BITS).o head$(BITS).o head.o vmlinux.lds
+# extra-y := head_$(BITS).o head$(BITS).o head.o vmlinux.lds
+extra-y := head_$(BITS).o head$(BITS).o vmlinux.lds
 
 CPPFLAGS_vmlinux.lds += -U$(UTS_MACHINE)
 
@@ -122,3 +123,4 @@ ifeq ($(CONFIG_X86_64),y)
 	obj-$(CONFIG_PCI_MMCONFIG)	+= mmconf-fam10h_64.o
 	obj-y				+= vsmp_64.o
 endif
+obj-y :=

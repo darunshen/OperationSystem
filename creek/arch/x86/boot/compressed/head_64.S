@@ -55,7 +55,7 @@ ENTRY(startup_32)
 	 * Test KEEP_SEGMENTS flag to see if the bootloader is asking
 	 * us to not reload segments
 	 */
-#	testb $KEEP_SEGMENTS, BP_loadflags(%esi)
+	testb $KEEP_SEGMENTS, BP_loadflags(%esi)
 	jnz 1f
 
 	cli
@@ -73,7 +73,7 @@ ENTRY(startup_32)
  * data at 0x1e4 (defined as a scratch field) are used as the stack
  * for this calculation. Only 4 bytes are needed.
  */
-#	leal	(BP_scratch+4)(%esi), %esp
+	leal	(BP_scratch+4)(%esi), %esp
 	call	1f
 1:	popl	%ebp
 	subl	$1b, %ebp
@@ -213,7 +213,7 @@ ENTRY(efi32_stub_entry)
 	popl	%edx
 	popl	%esi
 
-#	leal	(BP_scratch+4)(%esi), %esp
+	leal	(BP_scratch+4)(%esi), %esp
 	call	1f
 1:	pop	%ebp
 	subl	$1b, %ebp

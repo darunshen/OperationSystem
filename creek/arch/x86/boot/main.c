@@ -125,7 +125,8 @@ static void init_heap(void) {
 void main(void) {
 #ifdef CONFIG_HELLOWORLD
   puts("HELLO WORLD !\n");
-  while(1){}
+  while (1) {
+  }
 #else
   /* First, copy the boot header into the "zeropage" */
   copy_boot_params();
@@ -169,6 +170,8 @@ void main(void) {
 
   /* Set the video mode */
   set_video();
+  puts("set_video done\n");
+		// while(1){}
 
   /* Do the last things and invoke protected mode */
   go_to_protected_mode();

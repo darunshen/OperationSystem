@@ -338,8 +338,16 @@ void set_video(void)
 	}
 	boot_params.hdr.vid_mode = mode;
 	vesa_store_edid();
+	puts("vesa_store_edid done\n");
+		// while(1){}
 	store_mode_params();
+	puts("store_mode_params done\n");
+		// while(1){}
 
-	if (do_restore)
+	if (do_restore){
+		
 		restore_screen();
+		puts("restore_screen done\n");
+		// while(1){}
+	}
 }
