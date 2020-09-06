@@ -170,7 +170,7 @@ void main(void) {
 
   /* Set the video mode */
   set_video();
-  puts("set_video done\n");
+  // puts("set_video done\n");
 		// while(1){}
 
   /* Do the last things and invoke protected mode */

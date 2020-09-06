@@ -10,6 +10,7 @@
         "string_view": "cpp",
         "linkage.h": "c",
         "compiler.h": "c",
-        "macro.h": "c"
+        "macro.h": "c",
+        "tuple": "c"
     }
 }

@@ -356,6 +356,7 @@
  * FIXME: The check currently breaks x86-64 build, so it's
  * temporarily disabled. Please fix x86-64 and reenable
  */
+/* #include <asm-generic/posix_types.h> */
 /* const.h: Macros for dealing with constants.  */
 /* Some constant macros are used in both assembler and
  * C code.  Therefore we cannot annotate them always with
@@ -572,6 +573,7 @@ CONFIG_PHYSICAL_ALIGN=0x200000
 CONFIG_PHYSICAL_START=0x1000000
 LOAD_PHYSICAL_ADDR = 0x1000000*/
 /* Minimum kernel alignment, as a power of two */
+/* #define MIN_KERNEL_ALIGN	(_AC(1, UL) << MIN_KERNEL_ALIGN_LG2)*/
 OUTPUT_FORMAT("elf64-x86-64", "elf64-x86-64", "elf64-x86-64")
 OUTPUT_ARCH(i386:x86-64)
 ENTRY(phys_startup_64)

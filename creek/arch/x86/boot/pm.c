@@ -96,7 +96,13 @@ static void setup_gdt(void)
 static void setup_idt(void)
 {
 	static const struct gdt_ptr null_idt = {0, 0};
-	// asm volatile("lidtl %0" : : "m" (null_idt));
+	if(sizeof(struct gdt_ptr) != 6){
+		puts("sizeof(struct gdt_ptr) != 6\n");
+		while(1){}
+	}
+	puts("lidtlbegin");
+	asm volatile("lidtl %0" : : "m" (null_idt));
+	puts("lidtl done");
 	// int i =1;
 	// while(i<1000000000000){
 	// 	if (!i%100000)puts("!");
@@ -110,37 +116,37 @@ static void setup_idt(void)
 void go_to_protected_mode(void)
 {
 	/* Hook before leaving real mode, also disables interrupts */
-	puts("realmode_switch_hook begin\n");
+	// puts("realmode_switch_hook begin\n");
 	realmode_switch_hook();
-	puts("realmode_switch_hook done\n");
+	// puts("realmode_switch_hook done\n");
 		// while(1){}
 
 	/* Enable the A20 gate */
 	if (enable_a20()) {
-		puts("A20 gate not responding, unable to boot...\n");
+		// puts("A20 gate not responding, unable to boot...\n");
 		die();
 	}
-puts("enable_a20 done\n");
+// puts("enable_a20 done\n");
 		// while(1){}
 	/* Reset coprocessor (IGNNE#) */
 	reset_coprocessor();
-	puts("reset_coprocessor done\n");
+	// puts("reset_coprocessor done\n");
 		// while(1){}
 
 	/* Mask all interrupts in the PIC */
 	mask_all_interrupts();
-	puts("mask_all_interrupts done\n");
+	// puts("mask_all_interrupts done\n");
 		// while(1){}
 
 	/* Actual transition to protected mode... */
-	puts("setup_idt begin\n");
+	// puts("setup_idt begin\n");
 		// while(1){}
-	setup_idt();
+	// setup_idt();
 	puts("setup_idt done\n");
 		// while(1){}
 	setup_gdt();
-	puts("setup_gdt done\n");
-		while(1){}
+	// puts("setup_gdt done\n");
+		// while(1){}
 	protected_mode_jump(boot_params.hdr.code32_start,
 			    (u32)&boot_params + (ds() << 4));
 }

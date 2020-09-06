@@ -304,7 +304,7 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 HOSTCC       = gcc
 HOSTCXX      = g++
 HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
-HOSTCXXFLAGS = -O2
+HOSTCXXFLAGS = -O1
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -363,7 +363,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 CFLAGS_MODULE   =
 AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
-CFLAGS_KERNEL	= -g
+CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im
 
@@ -558,7 +558,8 @@ init-y		:= init/
 drivers-y	:= drivers/ sound/ firmware/
 net-y		:= net/
 libs-y		:= lib/
-core-y		:= usr/
+# core-y		:= usr/
+core-y		:= 
 virt-y		:= virt/
 endif # KBUILD_EXTMOD
 
@@ -645,7 +646,7 @@ else
 ifdef CONFIG_PROFILE_ALL_BRANCHES
 KBUILD_CFLAGS	+= -O2
 else
-KBUILD_CFLAGS   += -O2
+KBUILD_CFLAGS   += -g -O1 -gdwarf-2 -g3
 endif
 endif
 
@@ -935,9 +936,10 @@ ifeq ($(KBUILD_EXTMOD),)
 # 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
 # 		     $(net-y) $(net-m) $(libs-y) $(libs-m) $(virt-y)))
 
-kernel-y		+= kernel/
+# kernel-y		+= kernel/
 
-vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(kernel-y) ))
+# vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(kernel-y) ))
+vmlinux-dirs := $(libs-y) arch/x86
 
 vmlinux-alldirs	:= $(sort $(vmlinux-dirs) $(patsubst %/,%,$(filter %/, \
 		     $(init-) $(core-) $(drivers-) $(net-) $(libs-) $(virt-))))
@@ -955,14 +957,14 @@ virt-y		:= $(patsubst %/, %/built-in.o, $(virt-y))
 # export KBUILD_VMLINUX_INIT := $(head-y) $(init-y)
 export KBUILD_VMLINUX_INIT := $(head-y)
 # export KBUILD_VMLINUX_MAIN := $(core-y) $(libs-y) $(drivers-y) $(net-y) $(virt-y)
-# export KBUILD_VMLINUX_MAIN := ""
+export KBUILD_VMLINUX_MAIN := $(core-y) $(libs-y)
 export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
 export LDFLAGS_vmlinux
 # used by scripts/pacmage/Makefile
 export KBUILD_ALLDIRS := $(sort $(filter-out arch/%,$(vmlinux-alldirs)) arch Documentation include samples scripts tools)
 
 # vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_INIT) $(KBUILD_VMLINUX_MAIN)
-vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_INIT)
+vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_INIT) $(KBUILD_VMLINUX_MAIN)
 
 # Final link of vmlinux
       cmd_link-vmlinux = $(CONFIG_SHELL) $< $(LD) $(LDFLAGS) $(LDFLAGS_vmlinux)
@@ -989,7 +991,7 @@ endif
 
 # The actual objects are generated when descending,
 # make sure no implicit rule kicks in
-# $(sort $(vmlinux-deps)): $(vmlinux-dirs) ;
+$(sort $(vmlinux-deps)): $(vmlinux-dirs) ;
 
 # Handle descending into subdirectories listed in $(vmlinux-dirs)
 # Preset locale variables to speed up the build process. Limit locale
